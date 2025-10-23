@@ -1,0 +1,32 @@
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "./App.css";
+import axios from "axios";
+import { useEffect } from "react";
+function App() {
+  const [jokes, setJokes] = useState([]);
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:8080/jokes")
+      .then((response) => {
+        setJokes(response.data);
+      })
+      .catch(console.error(error));
+  }, []);
+  return (
+    <>
+      <h1>Full stack</h1>
+      <p>JOKES:{jokes.length}</p>
+      {jokes.map((joke, index) => (
+        <div key={joke.id}>
+          <h3>{joke.title}</h3>
+          <p>{joke.punchline}</p>
+        </div>
+      ))}
+    </>
+  );
+}
+
+export default App;
